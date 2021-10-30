@@ -20,6 +20,37 @@ const qt = "q,r,s,t,Q,R,S,T"
 const ux = "u,v,w,x,U,V,W,X"
 const yz = "y,z,Y,Z"
 
+
+ const typeFunc=function (nameArray){
+    var dimentional = new Array(7);
+
+    for (var i = 0; i < dimentional.length; i++) {
+        dimentional[i] = new Array();
+ }
+ nameArray.forEach(file=>{
+    if (ad.includes(file.charAt(0))) {
+        dimentional[0].push(file)
+        //  console.log("       A-Z:")
+    }
+    else if (eh.includes(file.charAt(0))) { dimentional[1].push(file) }
+    else if (il.includes(file.charAt(0))) { dimentional[2].push(file) }
+    else if (mp.includes(file.charAt(0))) { dimentional[3].push(file) }
+    else if (qt.includes(file.charAt(0))) { dimentional[4].push(file) }
+    else if (ux.includes(file.charAt(0))) { dimentional[5].push(file) }
+    else if (yz.includes(file.charAt(0))) { dimentional[6].push(file) }
+ })
+ for (var i = 0; i < dimentional.length; i++){
+    if(dimentional[i].length>0){
+        for (var j = 0; j < dimentional[i].length; j++){
+            console.log("       "+dimentional[i][j])
+        }
+        console.log("")
+    }
+   
+}
+
+}
+
 const loopLS = function (typeFile, name) {
     var dimentional = new Array(7);
 
