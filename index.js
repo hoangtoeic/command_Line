@@ -176,7 +176,7 @@ yargs.command({
 
             // console.log(type);
             if (typeList.includes(type)) {
-                if (type.includes("images")) {
+                if (type.includes("image")) {
                     console.log(type + ":")
                  //   console.log(argv.name)
                     loopLS(".jpg",argv.name,argv.modify)
