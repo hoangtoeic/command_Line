@@ -3,6 +3,7 @@ const yargs = require('yargs')// for cli
 var path = require('path');//
 
 const fs = require('fs');
+const fsa=require('fs-extra')
 const { boolean } = require('yargs');
 const typeList = "images,texts,bash"
 
@@ -20,7 +21,7 @@ const qt = "q,r,s,t,Q,R,S,T"
 const ux = "u,v,w,x,U,V,W,X"
 const yz = "y,z,Y,Z"
 
-const modifyFunc=function (nameArray,name){
+const modifyFunc=function (nameArray,name,typeFile){
     var dimentional = new Array(5);
 
     for (var i = 0; i < dimentional.length; i++) {
@@ -64,15 +65,25 @@ const modifyFunc=function (nameArray,name){
         })
        // if(name){typeFunc(typeArray)}
          for (var i = 0; i < dimentional.length; i++){
+             var modifyName=""
             if(dimentional[i].length>0){
-                if(i==0)    console.log("   <100KB:")
-                else if(i==1)console.log("   100KB-1MB:")
-                else if(i==2)console.log("   1MB-5MB:")
-                else if(i==3)console.log("   5MB-10MB:")
-                else if(i==4)console.log("   >10MB:")
-                if(name){typeFunc(dimentional[i])}
+                if(i==0)    {console.log("   smaller_100KB:")
+                modifyName="smaller_100KB"}
+                else if(i==1){
+                console.log("   100KB-1MB:")
+                modifyName="100KB-1MB"}
+                else if(i==2){
+                console.log("   1MB-5MB:")
+                modifyName="1MB-5MB"}
+                else if(i==3){
+                console.log("   5MB-10MB:")
+                modifyName="5MB-10MB"}
+                else if(i==4){console.log("   bigger_10MB:")
+                modifyName="smaller_100KB"}
+                if(name){typeFunc(dimentional[i],typeFile,modifyName)}
                 else {
                 for (var j = 0; j < dimentional[i].length; j++){
+                    moveFile(dimentional[i][j],typeFile,modifyName)
                     console.log("       "+dimentional[i][j])
                 }
                 console.log("")
@@ -87,7 +98,7 @@ const modifyFunc=function (nameArray,name){
 }
 
 
- const typeFunc=function (nameArray){
+ const typeFunc=function (nameArray,typeFile,modifyName){
     var dimentional = new Array(7);
 
     for (var i = 0; i < dimentional.length; i++) {
@@ -110,6 +121,8 @@ const modifyFunc=function (nameArray,name){
  for (var i = 0; i < dimentional.length; i++){
     if(dimentional[i].length>0){
         for (var j = 0; j < dimentional[i].length; j++){
+            if(modifyName)   moveFile(dimentional[i][j],typeFile,modifyName)
+           else  moveFile(dimentional[i][j],typeFile)
             console.log("       "+dimentional[i][j])
         }
         console.log("")
@@ -118,6 +131,25 @@ const modifyFunc=function (nameArray,name){
 }
 
 }
+
+const moveFile=function(file,typeFile,modifyName)
+{
+    if(modifyName)
+    { fsa.move(`./src/${file}`,`./src/${typeFile}/${modifyName}/${file}`),err=>{
+        if (err) return console.error(err)
+        console.log('success!')}
+    }
+  else
+    { fsa.move(`./src/${file}`,`./src/${typeFile}/${file}`),err=>{
+        if (err) return console.error(err)
+        console.log('success!')}
+   
+    }
+
+}
+
+
+ 
 
 const loopLS = function (typeFile, name,modify) {
     var typeArray = new Array();
@@ -132,10 +164,11 @@ const loopLS = function (typeFile, name,modify) {
             typeArray.push(file)
            }
     });
-    if(name&&!modify){typeFunc(typeArray)}
-    else if(modify){modifyFunc(typeArray,name)}
+    if(name&&!modify){typeFunc(typeArray,typeFile)}
+    else if(modify){modifyFunc(typeArray,name,typeFile)}
     else {
         for (var i = 0; i < typeArray.length; i++){
+                moveFile(typeArray[i],typeFile)
                 console.log("       "+typeArray[i])
         }
     }
@@ -179,6 +212,12 @@ yargs.command({
                 if (type.includes("image")) {
                     console.log(type + ":")
                  //   console.log(argv.name)
+
+                //  var folderDir='./src/folderAB'
+                //  if (!fs.existsSync(folderDir)){
+                //     fs.mkdirSync(folderDir, { recursive: true })
+                //  }
+                   
                     loopLS(".jpg",argv.name,argv.modify)
                 }
             }
