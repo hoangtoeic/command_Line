@@ -1,7 +1,8 @@
 # command_Line
 
 See video above
-https://app.diagrams.net/#G1CIhvpOMF0P0XarLcK_u7AuhuRG15hVue
+Introduce: https://app.diagrams.net/#G1CIhvpOMF0P0XarLcK_u7AuhuRG15hVue
+Video:https://www.youtube.com/watch?v=f5Ej3jjIdxI
 
 VD1
 Taọ các folder và phân loại file theo type=”image,text,bash”
